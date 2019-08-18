@@ -48,7 +48,8 @@ def get_ip_attribution_url(request):
         py_body = json.loads(request.body.decode('utf-8'))
         client_ip = py_body["client_ip"]
         #attribution = subprocess.getoutput("curl http://www.cip.cc/" + client_ip + " -s | head -n3")
-        response = subprocess.getoutput("curl http://freeapi.ipip.net/" + client_ip + " -s")
+        #response = subprocess.getoutput("curl http://freeapi.ipip.net/" + client_ip + " -s")
+        response = requests.get("http://freeapi.ipip.net/" + client_ip).text
         return HttpResponse(response)
     else:
         return HttpResponse("error")
@@ -108,10 +109,10 @@ def get_device_load(request):
         attrid = py_body['attrId']
         target_ip = py_body['ip']
         query_body = {"datatype":0,"idtype":1,"begtime":begtime,"endtime":endtime,"query":[{"attrid":attrid,"ip":target_ip}]}
-        url = "http://9.94.61.166:28081/api/get_min_data_new/"
+        url = "http://100.122.28.68:24000/api/get_min_data_new/"
         data = json.dumps(query_body)
         response = requests.post(url,data)
-        return HttpResponse(response)
+        return HttpResponse(response.text)
     else:
         return HttpResponse("error")
 
