@@ -125,10 +125,9 @@ def get_dns_cache(request):
 def customize(request):
     if request.method == "POST":
         py_body = json.loads(request.body.decode('utf-8'))
-        if py_body:
-            cmd = py_body["cmd"]
-            response = subprocess.getoutput(cmd)
-            return HttpResponse(response)
-        else:
-            return HttpResponse("error")
+        cmd = py_body["cmd"]
+        response = subprocess.getoutput(cmd)
+        return HttpResponse(response)
+    else:
+        return HttpResponse("error")
 
